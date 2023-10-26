@@ -108,7 +108,27 @@ provider "digitalocean" {
 terraform -chdir=./terraform init -backend-config="access_key=***" -backend-config="secret_key=***"
 ```
 
-После мы должны увидеть в терминале примерно следующую картину
+После, мы должны увидеть в терминале примерно следующую картину
+
+```shell
+Initializing the backend...
+╷
+│ Error: Failed to get existing workspaces: S3 bucket does not exist.
+│ 
+│ The referenced S3 bucket must have been previously created. If the S3 bucket
+│ was created within the last minute, please wait for a minute or two and try
+│ again.
+│ 
+│ Error: NoSuchBucket: 
+│ 	status code: 404, request id: tx0000021f1f4169fd8b81e-00653a46d5-471b1f6a-ams3c, host id: 
+│ 
+│ 
+│ 
+```
+
+Это потому, что bucket для хранения состояния terraform нам нужно создать вручную, перед тем как приступать к работе с terraform. Как это сделать можно прочитать [тут](https://docs.digitalocean.com/products/spaces/how-to/create/).
+
+После создания DigitalOcean space, повторяем команду `terraform init` и теперь, нужно 
 
 ```shell
 Initializing the backend...
