@@ -1,0 +1,46 @@
+---
+- hosts: all
+  tasks:
+    - name: Create /work directory
+      file:
+        path: "{{ work_dir }}"
+        state: directory
+        mode: 0775
+        owner: "{{ ansible_ssh_user }}"
+        group: "{{ team_group }}"
+
+    - name: Install required system packages
+      apt:
+        pkg:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - net-tools
+          - software-properties-common
+          - python3-pip
+          - virtualenv
+          - python3-setuptools
+        state: present
+        update_cache: true
+
+    - name: Add Docker GPG apt Key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker Repository
+      apt_repository:
+        repo: deb https://download.docker.com/linux/ubuntu focal stable
+        state: present
+
+    - name: Update apt and install docker-ce
+      apt:
+        name: docker-ce
+        state: present
+        update_cache: true
+
+    - name: Install docker module for python
+      pip:
+        name:
+          - docker
+          - docker-compose

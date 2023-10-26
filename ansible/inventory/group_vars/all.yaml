@@ -1,0 +1,7 @@
+---
+work_dir: /work
+ansible_ssh_user: root
+team_group: root
+private_ether_interface: eth1
+private_subnet: 192.168.99.0/24
+private_ip4_address: "{{ hostvars[inventory_hostname]['ansible_' + private_ether_interface]['ipv4']['address'] }}"

@@ -1,0 +1,20 @@
+---
+- hosts: wireguard
+  tasks:
+    - name: Ensure wireguard directory exists
+      file:
+        path: "{{ volume_dir }}"
+        state: directory
+        mode: "0775"
+
+    - name: Configure wg-easy docker-compose.yaml
+      template:
+        src: "../templates/wireguard/docker-compose.yaml.j2"
+        dest: "{{ volume_dir }}/docker-compose.yaml"
+        mode: "0664"
+
+    - name: Run wg-easy
+      docker_compose:
+        project_src: "{{ volume_dir }}"
+        state: present
+        pull: yes

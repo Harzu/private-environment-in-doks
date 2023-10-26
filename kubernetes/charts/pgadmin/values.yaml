@@ -1,0 +1,9 @@
+ingress:
+  enabled: true
+  ingressClassName: nginx-private
+  hosts:
+    - host: pgadmin.yourdomain.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls: []

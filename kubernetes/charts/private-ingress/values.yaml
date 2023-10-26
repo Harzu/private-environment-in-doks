@@ -1,0 +1,19 @@
+ingressClassResource:
+  name: nginx-private
+
+externalTrafficPolicy: Local
+config:
+  compute-full-forwarded-for: "true"
+  use-forwarded-headers: "true"
+  use-proxy-protocol: "true"
+
+service:
+  type: NodePort
+  nodePorts:
+    http: 30080
+    https: 30443
+  annotations:
+    kubernetes.digitalocean.com/firewall-managed: "false"
+    external-dns.alpha.kubernetes.io/hostname: "internal.yourdomain.com"
+    external-dns.alpha.kubernetes.io/ttl: "300"
+    external-dns.alpha.kubernetes.io/access: "private"

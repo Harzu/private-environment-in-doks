@@ -1,0 +1,18 @@
+---
+- hosts: haproxy
+  tasks:
+    - name: Update UFW defaults
+      ufw: direction={{ item.direction }} policy={{ item.policy }}
+      with_items:
+        - { direction: 'incoming', policy: 'deny' }
+        - { direction: 'outgoing', policy: 'allow' }
+
+    - name: Update UFW rules for private interface
+      ufw: rule={{ item.rule }} interface={{ item.interface }} direction=in port={{ item.port }} proto={{ item.proto }}
+      with_items:
+        - { rule: 'allow', interface: "{{ private_ether_interface }}", port: '80', proto: 'tcp' }
+        - { rule: 'allow', interface: "{{ private_ether_interface }}", port: '443', proto: 'tcp' }
+        - { rule: 'allow', interface: "{{ private_ether_interface }}", port: '22', proto: 'tcp' }
+
+    - name: Enable ufw
+      ufw: state=enabled

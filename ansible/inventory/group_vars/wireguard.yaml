@@ -1,0 +1,6 @@
+---
+wg_easy_version: "7"
+wg_easy_password: foobar123
+volume_dir: "{{ work_dir }}/wireguard"
+wireguard_subnet: 10.8.0.0/24
+wireguard_hostname: "{{ hostvars[inventory_hostname]['ansible_host'] }}"

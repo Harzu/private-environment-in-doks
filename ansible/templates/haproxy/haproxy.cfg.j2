@@ -1,0 +1,40 @@
+global
+    chroot      /var/lib/haproxy
+    pidfile     /var/run/haproxy.pid
+    maxconn     4000
+    user        haproxy
+    group       haproxy
+    daemon
+    stats socket /var/lib/haproxy/stats
+
+defaults
+    mode http
+    log global
+    option                  redispatch
+    retries                 3
+    timeout http-request    10s
+    timeout queue           1m
+    timeout connect         10s
+    timeout client          1m
+    timeout server          1m
+    timeout http-keep-alive 10s
+    timeout check           10s
+    maxconn                 3000
+
+frontend http_front
+    mode tcp
+    bind {{ private_ip4_address }}:80
+    default_backend http_back
+
+frontend https_front
+    mode tcp
+    bind {{ private_ip4_address }}:443
+    default_backend https_back
+
+backend http_back
+    mode tcp
+    server server01 {{ internal_ingress_domain }}:30080 send-proxy
+
+backend https_back
+    mode tcp
+    server server01 {{ internal_ingress_domain }}:30443 send-proxy

@@ -1,0 +1,17 @@
+---
+- hosts: haproxy
+  tasks:
+    - name: Install haproxy package
+      package:
+        name: haproxy={{ haproxy_version }}
+        state: present
+
+    - name: Configure haproxy.cfg
+      template:
+        src: "../templates/haproxy/haproxy.cfg.j2"
+        dest: "/etc/haproxy/haproxy.cfg"
+
+    - name: HAproxy service start
+      service:
+        name: haproxy
+        state: restarted
