@@ -128,7 +128,7 @@ Initializing the backend...
 
 Это потому, что bucket для хранения состояния terraform нам нужно создать вручную, перед тем как приступать к работе с terraform. Как это сделать можно прочитать [тут](https://docs.digitalocean.com/products/spaces/how-to/create/).
 
-После создания DigitalOcean space, повторяем команду `terraform init` и теперь, нужно 
+После создания DigitalOcean space, повторяем команду `terraform init` и теперь, должны увидеть следующие. 
 
 ```shell
 Initializing the backend...
